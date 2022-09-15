@@ -357,6 +357,7 @@ class SynthesisBlock(torch.nn.Module):
 
         if in_channels == 0:
             self.const = torch.nn.Parameter(torch.randn([out_channels, resolution, resolution]))
+            print("Constant value:", self.const)
 
         if in_channels != 0:
             self.conv0 = SynthesisLayer(in_channels, out_channels, w_dim=w_dim, resolution=resolution, up=2,
