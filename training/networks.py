@@ -357,6 +357,11 @@ class SynthesisBlock(torch.nn.Module):
 
         if in_channels == 0:
             self.const = torch.nn.Parameter(torch.randn([out_channels, resolution, resolution]))
+            for c in range(0, out_channels):
+                for i in range(0, resolution):
+                  for j in range(0, resolution):  
+                    if(j >= resolution/2):
+                        self.const[c][i][j] = 0
             print("Constant value:", self.const)
 
         if in_channels != 0:
