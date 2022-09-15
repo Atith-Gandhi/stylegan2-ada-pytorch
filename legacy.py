@@ -225,6 +225,8 @@ def convert_tf_generator(tf_G, custom=False, **ex_kwargs):
         from training import stylegan2_multi as networks
     else:
         from training import networks
+
+    print("Constant value: ", tf_params[f'synthesis/4x4/Const/const'])
     G = networks.Generator(**kwargs).eval().requires_grad_(False)
     # pylint: disable=unnecessary-lambda
     _populate_module_params(G,
