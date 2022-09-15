@@ -357,12 +357,12 @@ class SynthesisBlock(torch.nn.Module):
 
         if in_channels == 0:
             self.const = torch.nn.Parameter(torch.randn([out_channels, resolution, resolution]))
-            for c in range(0, out_channels):
-                for i in range(0, resolution):
-                  for j in range(0, resolution):  
-                    if(j >= resolution/2):
-                        self.const[c][i][j] = 0
-            print("Constant value:", self.const)
+            # for c in range(0, out_channels):
+            #     for i in range(0, resolution):
+            #       for j in range(0, resolution):  
+            #         if(j >= resolution/2):
+            #             self.const[c][i][j] = 0
+            # print("Constant value:", self.const)
 
         if in_channels != 0:
             self.conv0 = SynthesisLayer(in_channels, out_channels, w_dim=w_dim, resolution=resolution, up=2,
@@ -394,6 +394,12 @@ class SynthesisBlock(torch.nn.Module):
         # Input.
         if self.in_channels == 0:
             x = self.const.to(dtype=dtype, memory_format=memory_format)
+            for c in range(0, x.shape[0]):
+                for i in range(0, x.shape[1]):
+                  for j in range(0, x.shape[2]):  
+                    if(j >= x.shape[1]/2):
+                        x[c][i][j] = 0
+            print("Constant value:", self.const)
             x = x.unsqueeze(0).repeat([ws.shape[0], 1, 1, 1])
         else:
             misc.assert_shape(x, [None, self.in_channels, self.resolution // 2, self.resolution // 2])
